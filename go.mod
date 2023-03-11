@@ -1,3 +1,3 @@
-module github.com/ckkannan/servicenowtable-client
+module ckkannan/servicenowtable
 
 go 1.13

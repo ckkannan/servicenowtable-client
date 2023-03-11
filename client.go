@@ -20,6 +20,7 @@ type Client struct {
 
 // AuthStruct -
 type AuthStruct struct {
+	sn_url  string `json:"sn_url"`
 	sn_user string `json:"sn_user"`
 	sn_pass string `json:"sn_pass"`
 }
@@ -49,16 +50,10 @@ func NewClient(sn_url, sn_user, sn_pass *string) (*Client, error) {
 	}
 
 	c.Auth = AuthStruct{
+		sn_url:  *sn_url,
 		sn_user: *sn_user,
 		sn_pass: *sn_pass,
 	}
-
-	// ar, err := c.SignIn()
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// c.Token = ar.Token
 
 	return &c, nil
 }
