@@ -1,4 +1,4 @@
-package hashicups
+package servivenowtable
 
 import (
 	"fmt"
@@ -8,11 +8,11 @@ import (
 )
 
 // HostURL - Default Hashicups URL
-const HostURL string = "http://localhost:19090"
+const CSN_URL string = "https://dev161016.service-now.com"
 
 // Client -
 type Client struct {
-	HostURL    string
+	sn_url     string
 	HTTPClient *http.Client
 	Token      string
 	Auth       AuthStruct
@@ -20,58 +20,58 @@ type Client struct {
 
 // AuthStruct -
 type AuthStruct struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	sn_user string `json:"sn_user"`
+	sn_pass string `json:"sn_pass"`
 }
 
 // AuthResponse -
 type AuthResponse struct {
-	UserID   int    `json:"user_id`
-	Username string `json:"username`
-	Token    string `json:"token"`
+	sn_user     string `json:"sn_user`
+	sn_username string `json:"sn_username`
+	Token       string `json:"token"`
 }
 
 // NewClient -
-func NewClient(host, username, password *string) (*Client, error) {
+func NewClient(sn_url, sn_user, sn_pass *string) (*Client, error) {
 	c := Client{
 		HTTPClient: &http.Client{Timeout: 10 * time.Second},
 		// Default Hashicups URL
-		HostURL: HostURL,
+		sn_url: CSN_URL,
 	}
 
-	if host != nil {
-		c.HostURL = *host
+	if sn_url != nil {
+		c.sn_url = *sn_url
 	}
 
 	// If username or password not provided, return empty client
-	if username == nil || password == nil {
+	if sn_user == nil || sn_pass == nil {
 		return &c, nil
 	}
 
 	c.Auth = AuthStruct{
-		Username: *username,
-		Password: *password,
+		sn_user: *sn_user,
+		sn_pass: *sn_pass,
 	}
 
-	ar, err := c.SignIn()
-	if err != nil {
-		return nil, err
-	}
+	// ar, err := c.SignIn()
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	c.Token = ar.Token
+	// c.Token = ar.Token
 
 	return &c, nil
 }
 
 func (c *Client) doRequest(req *http.Request, authToken *string) ([]byte, error) {
-	token := c.Token
+	// token := c.Token
 
-	if authToken != nil {
-		token = *authToken
-	}
+	// if authToken != nil {
+	// 	token = *authToken
+	// }
 
-	req.Header.Set("Authorization", token)
-
+	// req.Header.Set("Authorization", token)
+	req.SetBasicAuth(c.Auth.sn_user, c.Auth.sn_pass)
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err

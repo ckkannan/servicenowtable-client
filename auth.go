@@ -1,4 +1,4 @@
-package hashicups
+package servivenowtable
 
 import (
 	"encoding/json"
