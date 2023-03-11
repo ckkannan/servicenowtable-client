@@ -10,6 +10,14 @@ import (
 // HostURL - Default Hashicups URL
 const CSN_URL string = "https://dev161016.service-now.com"
 
+type servicenowtableProviderInput struct {
+	sn_url    string
+	sn_user   string
+	sn_pass   string
+	SSLIgnore bool
+	Version   string
+}
+
 // Client -
 type Client struct {
 	sn_url     string
@@ -20,39 +28,39 @@ type Client struct {
 
 // AuthStruct -
 type AuthStruct struct {
-	sn_url  string `json:"sn_url"`
-	sn_user string `json:"sn_user"`
-	sn_pass string `json:"sn_pass"`
+	Sn_url  string `json:"sn_url"`
+	Sn_user string `json:"sn_user"`
+	Sn_pass string `json:"sn_pass"`
 }
 
 // AuthResponse -
 type AuthResponse struct {
-	sn_user     string `json:"sn_user`
-	sn_username string `json:"sn_username`
+	Sn_user     string `json:"sn_user`
+	Sn_username string `json:"sn_username`
 	Token       string `json:"token"`
 }
 
 // NewClient -
-func NewClient(sn_url, sn_user, sn_pass *string) (*Client, error) {
+func NewClient(servicenow servicenowtableProviderInput) (*Client, error) {
 	c := Client{
 		HTTPClient: &http.Client{Timeout: 10 * time.Second},
 		// Default Hashicups URL
 		sn_url: CSN_URL,
 	}
 
-	if sn_url != nil {
-		c.sn_url = *sn_url
+	if servicenow.sn_url == "" {
+		c.sn_url = servicenow.sn_url
 	}
 
 	// If username or password not provided, return empty client
-	if sn_user == nil || sn_pass == nil {
+	if servicenow.sn_user == "" || servicenow.sn_pass == "" {
 		return &c, nil
 	}
 
 	c.Auth = AuthStruct{
-		sn_url:  *sn_url,
-		sn_user: *sn_user,
-		sn_pass: *sn_pass,
+		Sn_url:  servicenow.sn_url,
+		Sn_user: servicenow.sn_user,
+		Sn_pass: servicenow.sn_pass,
 	}
 
 	return &c, nil
@@ -66,7 +74,7 @@ func (c *Client) doRequest(req *http.Request, authToken *string) ([]byte, error)
 	// }
 
 	// req.Header.Set("Authorization", token)
-	req.SetBasicAuth(c.Auth.sn_user, c.Auth.sn_pass)
+	req.SetBasicAuth(c.Auth.Sn_user, c.Auth.Sn_pass)
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
