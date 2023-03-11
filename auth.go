@@ -10,7 +10,7 @@ import (
 
 // SignIn - Get a new token for user
 func (c *Client) SignIn() (*AuthResponse, error) {
-	if c.Auth.sn_user == "" || c.Auth.sn_pass == "" {
+	if c.Auth.Sn_user == "" || c.Auth.Sn_pass == "" {
 		return nil, fmt.Errorf("define username and password")
 	}
 	rb, err := json.Marshal(c.Auth)
@@ -39,7 +39,7 @@ func (c *Client) SignIn() (*AuthResponse, error) {
 
 // SignIn - Get a new token for user
 func (c *Client) GetUserTokenSignIn(auth AuthStruct) (*AuthResponse, error) {
-	if auth.sn_user == "" || auth.sn_pass == "" {
+	if auth.Sn_user == "" || auth.Sn_pass == "" {
 		return nil, fmt.Errorf("define username and password")
 	}
 	rb, err := json.Marshal(auth)
@@ -54,7 +54,7 @@ func (c *Client) GetUserTokenSignIn(auth AuthStruct) (*AuthResponse, error) {
 
 	body, err := c.doRequest(req, nil)
 	if err != nil {
-		return nil, errors.New("Unable to login")
+		return nil, errors.New(string("unable to login"))
 	}
 
 	ar := AuthResponse{}
