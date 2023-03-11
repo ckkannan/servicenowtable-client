@@ -1,4 +1,4 @@
-package servivenowtable
+package servicenowtable
 
 import (
 	"encoding/json"
