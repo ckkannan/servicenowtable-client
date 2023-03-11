@@ -10,7 +10,7 @@ import (
 
 // Sign up - Create new user, return user token upon successful creation
 func (c *Client) SignUp(auth AuthStruct) (*AuthResponse, error) {
-	if auth.Username == "" || auth.Password == "" {
+	if auth.sn_user == "" || auth.sn_pass == "" {
 		return nil, fmt.Errorf("define username and password")
 	}
 	rb, err := json.Marshal(auth)
@@ -18,7 +18,7 @@ func (c *Client) SignUp(auth AuthStruct) (*AuthResponse, error) {
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signup", c.HostURL), strings.NewReader(string(rb)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signup", c.sn_url), strings.NewReader(string(rb)))
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (c *Client) SignUp(auth AuthStruct) (*AuthResponse, error) {
 
 // SignIn - Get a new token for user
 func (c *Client) SignIn() (*AuthResponse, error) {
-	if c.Auth.Username == "" || c.Auth.Password == "" {
+	if c.Auth.sn_user == "" || c.Auth.sn_pass == "" {
 		return nil, fmt.Errorf("define username and password")
 	}
 	rb, err := json.Marshal(c.Auth)
@@ -47,7 +47,7 @@ func (c *Client) SignIn() (*AuthResponse, error) {
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signin", c.HostURL), strings.NewReader(string(rb)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signin", c.sn_url), strings.NewReader(string(rb)))
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *Client) SignIn() (*AuthResponse, error) {
 
 // SignIn - Get a new token for user
 func (c *Client) GetUserTokenSignIn(auth AuthStruct) (*AuthResponse, error) {
-	if auth.Username == "" || auth.Password == "" {
+	if auth.sn_user == "" || auth.sn_pass == "" {
 		return nil, fmt.Errorf("define username and password")
 	}
 	rb, err := json.Marshal(auth)
@@ -76,7 +76,7 @@ func (c *Client) GetUserTokenSignIn(auth AuthStruct) (*AuthResponse, error) {
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signin", c.HostURL), strings.NewReader(string(rb)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signin", c.sn_url), strings.NewReader(string(rb)))
 	if err != nil {
 		return nil, err
 	}
