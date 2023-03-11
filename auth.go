@@ -97,7 +97,7 @@ func (c *Client) GetUserTokenSignIn(auth AuthStruct) (*AuthResponse, error) {
 
 // SignOut - Revoke the token for a user
 func (c *Client) SignOut(authToken *string) error {
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signout", c.HostURL), strings.NewReader(string("")))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signout", c.sn_url), strings.NewReader(string("")))
 	if err != nil {
 		return err
 	}
