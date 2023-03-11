@@ -1,3 +1,3 @@
-module github.com/hashicorp-demoapp/hashicups-client-go
+module github.com/ckkannan/servicenowtable-client
 
 go 1.13
