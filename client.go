@@ -11,9 +11,9 @@ import (
 const CSN_URL string = "https://dev161016.service-now.com"
 
 type ServicenowtableProviderInput struct {
-	sn_url    string
-	sn_user   string
-	sn_pass   string
+	Sn_url    string
+	Sn_user   string
+	Sn_pass   string
 	SSLIgnore bool
 	Version   string
 }
@@ -48,19 +48,19 @@ func NewClient(servicenow ServicenowtableProviderInput) (*Client, error) {
 		sn_url: CSN_URL,
 	}
 
-	if servicenow.sn_url == "" {
-		c.sn_url = servicenow.sn_url
+	if servicenow.Sn_url == "" {
+		c.sn_url = servicenow.Sn_url
 	}
 
 	// If username or password not provided, return empty client
-	if servicenow.sn_user == "" || servicenow.sn_pass == "" {
+	if servicenow.Sn_user == "" || servicenow.Sn_pass == "" {
 		return &c, nil
 	}
 
 	c.Auth = AuthStruct{
-		Sn_url:  servicenow.sn_url,
-		Sn_user: servicenow.sn_user,
-		Sn_pass: servicenow.sn_pass,
+		Sn_url:  servicenow.Sn_url,
+		Sn_user: servicenow.Sn_user,
+		Sn_pass: servicenow.Sn_pass,
 	}
 
 	return &c, nil
