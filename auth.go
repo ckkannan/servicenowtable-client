@@ -23,7 +23,7 @@ func (c *Client) SignIn() (*AuthResponse, error) {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req, nil)
+	body, err := c.doRequest(req)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (c *Client) GetUserTokenSignIn(auth AuthStruct) (*AuthResponse, error) {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req, nil)
+	body, err := c.doRequest(req)
 	if err != nil {
 		return nil, errors.New(string("unable to login"))
 	}
@@ -73,7 +73,7 @@ func (c *Client) SignOut(authToken *string) error {
 		return err
 	}
 
-	body, err := c.doRequest(req, authToken)
+	body, err := c.doRequest(req)
 	if err != nil {
 		return err
 	}

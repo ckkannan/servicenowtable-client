@@ -24,6 +24,8 @@ type Client struct {
 	HTTPClient *http.Client
 	Token      string
 	Auth       AuthStruct
+	Table      string
+	Query      string
 }
 
 // AuthStruct -
@@ -66,7 +68,7 @@ func NewClient(servicenow ServicenowtableProviderInput) (*Client, error) {
 	return &c, nil
 }
 
-func (c *Client) doRequest(req *http.Request, authToken *string) ([]byte, error) {
+func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 	// token := c.Token
 
 	// if authToken != nil {
