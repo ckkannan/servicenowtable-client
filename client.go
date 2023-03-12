@@ -1,4 +1,4 @@
-package servicenowtable
+package servicenowtable_client
 
 import (
 	"fmt"
@@ -15,6 +15,7 @@ type ServicenowtableProviderInput struct {
 	Sn_user   string
 	Sn_pass   string
 	SSLIgnore bool
+	Authtype  string
 	Version   string
 }
 
@@ -30,9 +31,10 @@ type Client struct {
 
 // AuthStruct -
 type AuthStruct struct {
-	Sn_url  string `json:"sn_url"`
-	Sn_user string `json:"sn_user"`
-	Sn_pass string `json:"sn_pass"`
+	Sn_url   string `json:"sn_url"`
+	Sn_user  string `json:"sn_user"`
+	Sn_pass  string `json:"sn_pass"`
+	AuthType string `json:"authtype"`
 }
 
 // AuthResponse -
@@ -53,16 +55,19 @@ func NewClient(servicenow ServicenowtableProviderInput) (*Client, error) {
 	if servicenow.Sn_url == "" {
 		c.sn_url = servicenow.Sn_url
 	}
-
+	if servicenow.Authtype == "" {
+		servicenow.Authtype = "Basic"
+	}
 	// If username or password not provided, return empty client
 	if servicenow.Sn_user == "" || servicenow.Sn_pass == "" {
 		return &c, nil
 	}
 
 	c.Auth = AuthStruct{
-		Sn_url:  servicenow.Sn_url,
-		Sn_user: servicenow.Sn_user,
-		Sn_pass: servicenow.Sn_pass,
+		Sn_url:   servicenow.Sn_url,
+		Sn_user:  servicenow.Sn_user,
+		Sn_pass:  servicenow.Sn_pass,
+		AuthType: servicenow.Authtype,
 	}
 
 	return &c, nil
@@ -76,7 +81,9 @@ func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 	// }
 
 	// req.Header.Set("Authorization", token)
-	req.SetBasicAuth(c.Auth.Sn_user, c.Auth.Sn_pass)
+	if c.Auth.AuthType == "Basic" {
+		req.SetBasicAuth(c.Auth.Sn_user, c.Auth.Sn_pass)
+	}
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
