@@ -10,7 +10,7 @@ import (
 // HostURL - Default Hashicups URL
 const CSN_URL string = "https://dev161016.service-now.com"
 
-type servicenowtableProviderInput struct {
+type ServicenowtableProviderInput struct {
 	sn_url    string
 	sn_user   string
 	sn_pass   string
@@ -35,13 +35,13 @@ type AuthStruct struct {
 
 // AuthResponse -
 type AuthResponse struct {
-	Sn_user     string `json:"sn_user`
-	Sn_username string `json:"sn_username`
+	Sn_user     string `json:"sn_user"`
+	Sn_username string `json:"sn_username"`
 	Token       string `json:"token"`
 }
 
 // NewClient -
-func NewClient(servicenow servicenowtableProviderInput) (*Client, error) {
+func NewClient(servicenow ServicenowtableProviderInput) (*Client, error) {
 	c := Client{
 		HTTPClient: &http.Client{Timeout: 10 * time.Second},
 		// Default Hashicups URL
