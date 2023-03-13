@@ -27,6 +27,7 @@ type Client struct {
 	Auth       AuthStruct
 	Table      string
 	Query      string
+	Fields     string
 }
 
 // AuthStruct -
