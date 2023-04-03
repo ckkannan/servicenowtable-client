@@ -21,12 +21,12 @@ func (c *Client) GetOrgRows() ([]rowOrg, error) {
 	url := fmt.Sprintf("%s/api/now/table/%s?sysparm_query=%s&sysparm_display_value=true&sysparm_fields=%s", c.sn_url, c.Table, c.Query, c.Fields)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		//	fmt.Println("Failed NewRequest")
+		// fmt.Println("Failed NewRequest")
 		return nil, err
 	}
 	body, err := c.doRequest(req)
 	if err != nil {
-		//	fmt.Println("Failed dorequest url", url)
+		// fmt.Println("Failed dorequest url", url)
 		return nil, err
 	}
 	var r result
@@ -34,10 +34,10 @@ func (c *Client) GetOrgRows() ([]rowOrg, error) {
 	//rowOrgs := []rowOrg{}
 	err = json.Unmarshal([]byte(body), &r)
 	if err != nil {
-		//	fmt.Println("Failed Json", err.Error())
+		// fmt.Println("Failed Json", err.Error())
 		return nil, err
 	}
-	// fmt.Println(r.Results)
+	// fmt.Println(r.Results[0].To_adgroup)
 	// fmt.Printf("datarows: %v", r.Results)
 	return r.Results, nil
 
